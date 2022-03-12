@@ -10,5 +10,3 @@ router.get("/beside", besideBus);
 console.log(besideBus);
 
 module.exports = router;
-
-//I5CBZ-Z4TKG-KS6QF-IG4XK-UKEVS-QEFBV

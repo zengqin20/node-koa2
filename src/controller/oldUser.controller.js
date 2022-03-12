@@ -1,6 +1,13 @@
+const getBeside = require("../request");
 class oldUserController {
   async besideBus(ctx, next) {
-    ctx.body = "hello beside";
+    const params = ctx.url.match(/\d+.\d+/g);
+    console.log(params);
+    const lat = params[0];
+    const lng = params[1];
+
+    const res = await getBeside(lat, lng);
+    ctx.body = res;
   }
 }
 
