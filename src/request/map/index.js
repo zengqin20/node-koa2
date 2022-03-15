@@ -8,10 +8,10 @@ let besideData = {
   //经纬度
 };
 
+//1.查询公交站相关信息
 async function getBeside(lat, lng) {
   //增加经纬度
   besideData.boundary = `nearby(${lat},${lng},100)`;
-  console.log(besideData.boundary);
   let dataString = "";
 
   //参数扁平化
@@ -23,4 +23,6 @@ async function getBeside(lat, lng) {
   return res.body;
 }
 
-module.exports = getBeside;
+module.exports = {
+  getBeside,
+};
