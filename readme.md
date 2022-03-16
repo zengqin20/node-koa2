@@ -3,3 +3,5 @@
 - router 分模块处理请求路由
 - utils index 工具函数， common 公共变量
 - request 请求第三方接口处理函数
+- modules 创建模型对象, schema 对应数据库中的集合以及集合中的字段， 模型对象代表字段类型
+- database 连接数据库
