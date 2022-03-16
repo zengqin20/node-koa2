@@ -1,0 +1,5 @@
+- app 文件 创建 koa 服务
+- controller 处理请求的中间件
+- router 分模块处理请求路由
+- utils index 工具函数， common 公共变量
+- request 请求第三方接口处理函数

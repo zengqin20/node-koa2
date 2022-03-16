@@ -1,6 +1,6 @@
-const getTime = require("../utils/index");
+const { getTime } = require("../utils/index");
 
-const { getBeside } = require("../request/map");
+const { getBeside, getMessage } = require("../request/map");
 class oldUserController {
   async besideBus(ctx, next) {
     const params = ctx.url.match(/\d+.\d+/g);
@@ -10,7 +10,7 @@ class oldUserController {
     //获取并且处理返回数据
     const res = await getBeside(lat, lng);
 
-    let result = JSON.parse(res).data?.map((item) => {
+    const result = JSON.parse(res).data?.map((item) => {
       //处理多条公交路线数据
       let route = item.address;
       route = route.split(",").slice(0, 2);
@@ -24,6 +24,28 @@ class oldUserController {
       return {
         busStation: `${item.title.split("[")[0]}站`,
         route,
+      };
+    });
+
+    ctx.body = result;
+  }
+
+  //处理搜索功能
+  async searchKeyword(ctx, next) {
+    const key = ctx.url.match(/(?<=\=).+/g)?.[0];
+
+    if (key === "null") {
+      ctx.body = "";
+      return;
+    }
+    //获取数据
+    const res = await getMessage(key);
+
+    const result = JSON.parse(res).data.map((item) => {
+      //处理数据
+      return {
+        title: item.title,
+        address: item.address,
       };
     });
 
