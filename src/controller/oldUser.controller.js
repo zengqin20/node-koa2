@@ -1,23 +1,11 @@
 const { getTime } = require("../utils/index");
 const { getBeside, getMessage } = require("../request/map");
 
-//引入数据库
-const models = require("../modules");
-
 class oldUserController {
   async besideBus(ctx, next) {
     const params = ctx.url.match(/\d+.\d+/g);
     const lat = params?.[0];
     const lng = params?.[1];
-    //示例操作数据库 增加
-    models.oldUser
-      .create({ name: "zzz", password: "123456" })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
 
     //获取并且处理返回数据
     const res = await getBeside(lat, lng);
