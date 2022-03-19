@@ -4,6 +4,7 @@ const key = "I5CBZ-Z4TKG-KS6QF-IG4XK-UKEVS-QEFBV";
 //腾讯地图请求地址
 const searchBeside = "https://apis.map.qq.com/ws/place/v1/search";
 const searchKey = "https://apis.map.qq.com/ws/place/v1/suggestion";
+const searchLocation = "https://apis.map.qq.com/ws/geocoder/v1/";
 
 //小程序相关
 const appid = "wx3487d71fa4384138";
@@ -16,4 +17,5 @@ module.exports = {
   appid,
   secret,
   session,
+  searchLocation,
 };

@@ -35,7 +35,6 @@ function queryData(url, data) {
   let dataString = queryString.stringify(data);
 
   const query = `${url}?${dataString}`;
-
   return koa2Req(query);
 }
 

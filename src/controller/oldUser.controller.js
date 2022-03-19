@@ -1,5 +1,5 @@
 const { getTime } = require("../utils/index");
-const { getBeside, getMessage } = require("../request/map");
+const { getBeside, getMessage, getLocation } = require("../request/map");
 
 class oldUserController {
   async besideBus(ctx, next) {
@@ -50,6 +50,21 @@ class oldUserController {
     });
 
     ctx.body = result;
+  }
+
+  async locationMessage(ctx, next) {
+    const params = ctx.url.match(/\d+.\d+/g);
+    const lat = params?.[0];
+    const lng = params?.[1];
+
+    //获取并且处理返回数据
+    const res = await getLocation(lat, lng);
+
+    const city = JSON.parse(res).result.address_component.city;
+
+    ctx.body = {
+      city,
+    };
   }
 }
 
