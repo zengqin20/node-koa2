@@ -32,14 +32,18 @@ class oldUserController {
 
   //处理搜索功能
   async searchKeyword(ctx, next) {
-    const key = ctx.url.match(/(?<=\=).+/g)?.[0];
+    //get请求时请求参数获取
+    // const word = ctx.url.match(/(?<=\=).+?((?=\&)|$)/g);
 
-    if (key === "null") {
+    const { keyword: key, region } = ctx.request.body;
+
+    if (key === null) {
       ctx.body = "";
       return;
     }
+
     //获取数据
-    const res = await getMessage(key);
+    const res = await getMessage(key, region);
 
     const result = JSON.parse(res).data.map((item) => {
       //处理数据

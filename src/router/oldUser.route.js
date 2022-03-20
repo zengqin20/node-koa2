@@ -14,7 +14,7 @@ const {
 router.get("/beside", besideBus);
 
 //处理搜索功能
-router.get("/search", searchKeyword);
+router.post("/search", searchKeyword);
 
 //处理定位城市
 router.get("/citymessage", locationMessage);

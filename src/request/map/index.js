@@ -16,8 +16,9 @@ async function getBeside(lat, lng) {
 }
 
 //2. 关键字提示
-async function getMessage(keyword) {
-  const data = new basicData(keyword);
+async function getMessage(keyword, region) {
+  let data = new basicData(keyword);
+  data.region = region;
 
   //请求数据
   const res = await queryData(searchKey, data);
