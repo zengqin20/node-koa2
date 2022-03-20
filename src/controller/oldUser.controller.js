@@ -45,11 +45,14 @@ class oldUserController {
     //获取数据
     const res = await getMessage(key, region);
 
+    console.log(res);
     const result = JSON.parse(res).data.map((item) => {
       //处理数据
+      const { title, address, location } = item;
       return {
-        title: item.title,
-        address: item.address,
+        title,
+        address,
+        location,
       };
     });
 
