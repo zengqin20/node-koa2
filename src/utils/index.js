@@ -2,6 +2,9 @@ const { key } = require("./common");
 const queryString = require("querystring");
 const koa2Req = require("koa2-request");
 
+const jwt = require("jsonwebtoken");
+const { secretKey } = require("../utils/common");
+
 function getTime() {
   const random = Math.floor(Math.random() * 16) + 1;
   const random1 = Math.floor(Math.random() * 5) + 1;
@@ -38,8 +41,15 @@ function queryData(url, data) {
   return koa2Req(query);
 }
 
+//解密jwt
+function verifyToken(token) {
+  const res = jwt.verify(token, secretKey);
+  console.log(res);
+}
+
 module.exports = {
   getTime,
   basicData,
   queryData,
+  verifyToken,
 };

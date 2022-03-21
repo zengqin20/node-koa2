@@ -10,6 +10,9 @@ const searchLocation = "https://apis.map.qq.com/ws/geocoder/v1/";
 const appid = "wx3487d71fa4384138";
 const secret = "913fcaf9a8e7bca7abe215e77f07cb18";
 const session = "https://api.weixin.qq.com/sns/jscode2session";
+
+//jwt secret
+const secretKey = "jsonwebtoken201831064406";
 module.exports = {
   key,
   searchKey,
@@ -17,5 +20,6 @@ module.exports = {
   appid,
   secret,
   session,
+  secretKey,
   searchLocation,
 };
