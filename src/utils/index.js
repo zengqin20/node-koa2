@@ -44,7 +44,8 @@ function queryData(url, data) {
 //解密jwt
 function verifyToken(token) {
   const res = jwt.verify(token, secretKey);
-  console.log(res);
+
+  return res.openid;
 }
 
 module.exports = {

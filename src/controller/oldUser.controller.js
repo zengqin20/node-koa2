@@ -1,5 +1,6 @@
-const { getTime } = require("../utils/index");
+const { getTime, verifyToken } = require("../utils/index");
 const { getBeside, getMessage, getLocation } = require("../request/map");
+const { findInfo, createInfo } = require("../database/util");
 
 class oldUserController {
   async besideBus(ctx, next) {
@@ -45,7 +46,6 @@ class oldUserController {
     //获取数据
     const res = await getMessage(key, region);
 
-    console.log(res);
     const result = JSON.parse(res).data.map((item) => {
       //处理数据
       const { title, address, location } = item;
@@ -67,7 +67,34 @@ class oldUserController {
     //获取并且处理返回数据
     const res = await getLocation(lat, lng);
 
-    const city = JSON.parse(res).result.address_component.city;
+    const city = JSON.parse(res).result.address;
+
+    ctx.body = {
+      city,
+    };
+  }
+
+  async routeMessage(ctx, next) {
+    //获取唯一标识信息
+    // const openId = ctx.url.match(/(?<=\=).+/g)[0];
+    const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
+    const openId = verifyToken(token);
+
+    //查询对应路线信息
+    const dbRes = await findInfo("Route", { openId });
+
+    if (!dbRes) {
+      ctx.body = { isRoute: false };
+    }
+  }
+
+  async addRoute(ctx, next) {
+    const { start, end } = ctx.request.body;
+
+    //解析token 获取openId
+    const obj = verifyToken;
+    //存入数据库
+    const res = await createInfo("Route", data);
 
     ctx.body = {
       city,

@@ -6,6 +6,8 @@ const {
   besideBus,
   searchKeyword,
   locationMessage,
+  routeMessage,
+  addRoute,
 } = require("../controller/oldUser.controller.js");
 //设置前缀
 // router.prefix("/api");
@@ -18,5 +20,9 @@ router.post("/search", searchKeyword);
 
 //处理定位城市
 router.get("/citymessage", locationMessage);
+
+///处理常用路线
+router.get("/commonroute", routeMessage);
+router.post("/commonroute", addRoute);
 
 module.exports = router;
