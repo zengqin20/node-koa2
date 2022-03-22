@@ -1,6 +1,6 @@
 const { getTime, verifyToken } = require("../utils/index");
 const { getBeside, getMessage, getLocation } = require("../request/map");
-const { findInfo, createInfo } = require("../database/util");
+const { findInfo, createInfo, updateInfo } = require("../database/util");
 
 class oldUserController {
   async besideBus(ctx, next) {
@@ -83,21 +83,39 @@ class oldUserController {
     //查询对应路线信息
     const dbRes = await findInfo("Route", { openId });
 
-    if (!dbRes) {
-      ctx.body = { isRoute: false };
-    }
+    //返回对应数据
+    ctx.body = dbRes
+      ? { isRoute: true, route: dbRes.route }
+      : { isRoute: false };
   }
 
   async addRoute(ctx, next) {
     const { start, end } = ctx.request.body;
 
     //解析token 获取openId
-    const obj = verifyToken;
-    //存入数据库
-    const res = await createInfo("Route", data);
+    const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
+    const openId = verifyToken(token);
+
+    //查询数据库
+    const findRes = await findInfo("Route", { openId });
+    let res;
+
+    if (findRes) {
+      //更新数据库
+      res = await updateInfo({
+        openId,
+        route: findRes.route.concat([{ start, end }]),
+      });
+    } else {
+      //新建
+      res = await createInfo("Route", {
+        openId,
+        route: [{ start, end }],
+      });
+    }
 
     ctx.body = {
-      city,
+      update: res,
     };
   }
 }

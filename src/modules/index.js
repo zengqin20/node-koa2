@@ -34,7 +34,7 @@ const routeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  homeroute: {
+  homeRoute: {
     type: Array,
     required: false,
   },

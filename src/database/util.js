@@ -10,14 +10,35 @@ exports.findInfo = async (collection, query) => {
 
 //新增
 exports.createInfo = async (collection, data) => {
-  const existence = await this.findInfo(collection, { openId: data.openId });
-
-  if (existence) {
-    return false;
-  }
-
   const res = await models[collection].create(data);
   if (res) {
     return true;
   }
+};
+
+//更新Route表
+exports.updateInfo = async (data) => {
+  const { openId, route, homeRoute } = data;
+
+  //更新哪个键值
+  const res = await models.Route.findOneAndUpdate(
+    {
+      openId,
+    },
+    {
+      $set: homeRoute ? { homeRoute } : { route },
+    },
+    {},
+    function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        return data;
+      }
+    }
+  ).clone();
+
+  //返回的是添加成功后的数组
+
+  return res ? true : false;
 };
