@@ -38,8 +38,20 @@ async function getLocation(lat, lng) {
   return res.body;
 }
 
+//4.位置解析为经纬度
+async function getLng(address) {
+  const data = {
+    key,
+    address,
+  };
+  const res = await queryData(searchLocation, data);
+
+  return res.body;
+}
+
 module.exports = {
   getBeside,
   getMessage,
   getLocation,
+  getLng,
 };

@@ -8,6 +8,9 @@ const {
   locationMessage,
   routeMessage,
   addRoute,
+  homeMessage,
+  addHome,
+  deleteHome,
 } = require("../controller/oldUser.controller.js");
 //设置前缀
 // router.prefix("/api");
@@ -24,5 +27,10 @@ router.get("/citymessage", locationMessage);
 ///处理常用路线
 router.get("/commonroute", routeMessage);
 router.post("/commonroute", addRoute);
+
+//处理回家
+router.get("/home", homeMessage);
+router.post("/home", addHome);
+router.post("/homedelete", deleteHome);
 
 module.exports = router;
