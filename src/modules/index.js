@@ -66,8 +66,24 @@ const childSchema = new mongoose.Schema({
 //创建子女用户表
 const Child = mongoose.model("Child", childSchema);
 
+//4. 关联模型对象  设计表结构
+const bindSchema = new mongoose.Schema({
+  parentId: {
+    type: Object,
+    required: true,
+  },
+  childId: {
+    type: String,
+    required: true,
+  },
+});
+
+//创建子女用户表
+const BindUser = mongoose.model("BindUser", bindSchema);
+
 module.exports = {
   User,
   Route,
   Child,
+  BindUser,
 };

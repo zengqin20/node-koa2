@@ -16,6 +16,7 @@ class loginController {
     //查询不同数据库是否有openId用户信息
     let dbRes;
     if (!type) {
+      console.log(1);
       const userRes = await findInfo("User", { openId: res.openid });
       const childRes = await findInfo("Child", { openId: res.openid });
 
