@@ -76,6 +76,10 @@ const bindSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  address: {
+    type: String,
+    required: false,
+  },
 });
 
 //创建子女用户表

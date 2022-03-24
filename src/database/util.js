@@ -42,3 +42,28 @@ exports.updateInfo = async (data) => {
 
   return res ? true : false;
 };
+
+//更新bindUser表
+exports.updateBindInfo = async (data) => {
+  const { childId, address } = data;
+
+  //更新哪个键值
+  const res = await models.BindUser.findOneAndUpdate(
+    {
+      childId,
+    },
+    {
+      $set: { address },
+    },
+    {},
+    function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        return data;
+      }
+    }
+  ).clone();
+
+  return res ? true : false;
+};
