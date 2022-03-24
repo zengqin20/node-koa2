@@ -69,10 +69,31 @@ const Child = mongoose.model("Child", childSchema);
 //4. 关联模型对象  设计表结构
 const bindSchema = new mongoose.Schema({
   parentId: {
-    type: Object,
+    type: String,
     required: true,
   },
   childId: {
+    //唯一
+    type: String,
+    required: true,
+  },
+  nickName: {
+    type: String,
+    required: false,
+  },
+  address: {
+    type: String,
+    required: false,
+  },
+});
+
+//创建子女绑定用户表
+const BindUser = mongoose.model("BindUser", bindSchema);
+
+//5. 同步信息对象  设计表结构
+const addressSchema = new mongoose.Schema({
+  parentId: {
+    //唯一
     type: String,
     required: true,
   },
@@ -82,12 +103,13 @@ const bindSchema = new mongoose.Schema({
   },
 });
 
-//创建子女用户表
-const BindUser = mongoose.model("BindUser", bindSchema);
+//创建子女绑定用户表
+const SyncAddress = mongoose.model("SyncAddress", addressSchema);
 
 module.exports = {
   User,
   Route,
   Child,
   BindUser,
+  SyncAddress,
 };

@@ -67,3 +67,26 @@ exports.updateBindInfo = async (data) => {
 
   return res ? true : false;
 };
+
+//更新SyncAddress表
+exports.updateSyncInfo = async (parentId, address) => {
+  //更新哪个键值
+  const res = await models.SyncAddress.findOneAndUpdate(
+    {
+      parentId,
+    },
+    {
+      $set: { address },
+    },
+    {},
+    function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        return data;
+      }
+    }
+  ).clone();
+
+  return res ? true : false;
+};
