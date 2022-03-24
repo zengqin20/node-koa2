@@ -209,6 +209,24 @@ class oldUserController {
       update: res,
     };
   }
+
+  async getSyncMessage(ctx, next) {
+    //解析token
+    const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
+    const parentId = verifyToken(token);
+
+    const dbRes = await findInfo("SyncAddress", { parentId });
+    if (dbRes) {
+      //解析坐标
+      const lngRes = await getLng(dbRes?.address);
+      const lngLocation = JSON.parse(lngRes).result.location;
+
+      ctx.body = {
+        address: dbRes.address,
+        lngLocation,
+      };
+    }
+  }
 }
 
 module.exports = new oldUserController();

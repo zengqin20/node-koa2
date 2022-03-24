@@ -11,6 +11,7 @@ const {
   homeMessage,
   addHome,
   deleteHome,
+  getSyncMessage,
 } = require("../controller/oldUser.controller.js");
 //设置前缀
 // router.prefix("/api");
@@ -32,5 +33,8 @@ router.post("/commonroute", addRoute);
 router.get("/home", homeMessage);
 router.post("/home", addHome);
 router.post("/homedelete", deleteHome);
+
+//处理同步输入地址问题
+router.get("/sync", getSyncMessage);
 
 module.exports = router;
