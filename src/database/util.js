@@ -8,6 +8,13 @@ exports.findInfo = async (collection, query) => {
   return res.length ? res[0] : false;
 };
 
+//多条查询
+exports.findInfos = async (collection, query) => {
+  const res = await models[collection].find(query);
+
+  return res.length ? res : false;
+};
+
 //新增
 exports.createInfo = async (collection, data) => {
   const res = await models[collection].create(data);
@@ -45,12 +52,13 @@ exports.updateInfo = async (data) => {
 
 //更新bindUser表
 exports.updateBindInfo = async (data) => {
-  const { childId, address } = data;
+  const { childId, address, nickName } = data;
 
   //更新哪个键值
   const res = await models.BindUser.findOneAndUpdate(
     {
       childId,
+      nickName,
     },
     {
       $set: { address },

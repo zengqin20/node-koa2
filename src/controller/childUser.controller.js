@@ -5,6 +5,7 @@ const {
   createInfo,
   updateBindInfo,
   updateSyncInfo,
+  findInfos,
 } = require("../database/util");
 const { secretKey } = require("../utils/common");
 const { verifyToken } = require("../utils/index");
@@ -61,11 +62,14 @@ class childUserController {
     const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
     const openId = verifyToken(token);
 
-    const dbRes = await findInfo("BindUser", { childId: openId });
+    const dbRes = await findInfos("BindUser", { childId: openId });
+
+    //如果查询出两条数据，记得合并信息为数组
+    const names = dbRes && dbRes.map((item) => item.nickName);
 
     ctx.body = {
       isBind: Boolean(dbRes),
-      nickName: dbRes.nickName,
+      nickName: names,
     };
   }
 
@@ -75,21 +79,25 @@ class childUserController {
     const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
     const openId = verifyToken(token);
 
-    const dbRes = await findInfo("BindUser", {
+    const dbRes = await findInfos("BindUser", {
       childId: openId,
-      nickName: "爸爸",
     });
-    // 查询nickName和childId对上的唯一地址
+
+    const infos =
+      dbRes &&
+      dbRes.map((item) => {
+        return { name: item.nickName, address: item.address };
+      });
 
     ctx.body = {
-      isAddress: Boolean(dbRes) && Boolean(dbRes.address),
-      address: dbRes?.address,
+      isAddress: dbRes,
+      infos: infos || [],
     };
   }
 
   //更新同步信息
   async handleSync(ctx, next) {
-    const { address } = ctx.request.body;
+    const { address, nickName } = ctx.request.body;
     //解析出用户openId
     const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
     const openId = verifyToken(token);
@@ -97,13 +105,13 @@ class childUserController {
     //查询绑定表信息
     const dbRes = await findInfo("BindUser", {
       childId: openId,
-      nickName: "爸爸",
+      nickName,
     });
 
-    let isBind = false;
     //获取对应openID
     if (dbRes) {
       const res = await updateBindInfo({
+        nickName,
         childId: openId,
         address,
       });
