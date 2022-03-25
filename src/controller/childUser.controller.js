@@ -123,5 +123,27 @@ class childUserController {
       };
     }
   }
+
+  //更新同步定位
+  async getLocation(ctx, next) {
+    //解析token
+    const token = ctx.request.header.authorization.match(/(?<=\s).+$/g)[0];
+    const openId = verifyToken(token);
+
+    const dbRes = await findInfos("BindUser", {
+      childId: openId,
+    });
+
+    const infos =
+      dbRes &&
+      dbRes.map((item) => {
+        return { name: item.nickName, location: item.location };
+      });
+
+    ctx.body = {
+      isLocation: Boolean(dbRes),
+      infos: infos || [],
+    };
+  }
 }
 module.exports = new childUserController();

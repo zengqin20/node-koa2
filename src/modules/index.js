@@ -85,6 +85,10 @@ const bindSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  location: {
+    type: Object,
+    required: false,
+  },
 });
 
 //创建子女绑定用户表
